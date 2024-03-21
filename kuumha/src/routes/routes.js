@@ -15,7 +15,6 @@ const RoutesComponent = () => {
                 <Route exact path="/" element={<Login />} />
                 <Route path="/Register" element={<Register/>} />
                 <Route path="/Home" element={<Home/>} />
-
             </Routes>
         </Router>
     );
