@@ -2,6 +2,14 @@ import asyncio
 import serial
 import websockets
 
+
+db_config = {
+    'host': 'mysql-geovani.alwaysdata.net',
+    'user': 'geovani',
+    'password': 'AmericazUT',
+    'database': 'geovani_project_water'
+}
+
 async def send_distance_data(websocket, path):
     try:
         ser = serial.Serial('COM7', 9600)  # Ajusta el nombre del puerto según tu configuración
