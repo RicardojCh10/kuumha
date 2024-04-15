@@ -18,7 +18,7 @@ const Clock = () => {
 };
 
 function Home() {
-  const [waterLevel, setWaterLevel] = useState(10); // Inicializa con un 10% para el ejemplo
+  const [waterLevel, setWaterLevel] = useState(50); // Inicializa con un 10% para el ejemplo
 
   useEffect(() => {
     const socket = new WebSocket('ws://localhost:8765');
@@ -42,69 +42,69 @@ function Home() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-gray-100 flex">
+    <div className="flex min-h-screen bg-gray-100">
       {/* Sidebar */}
-      <div className="w-16 bg-blue-500 text-white flex flex-col items-center py-4">
+      <div className="flex flex-col items-center w-16 py-4 text-white bg-blue-500">
         <div className="mb-8">
           <FiHome className="text-2xl"/>
-          <span className="text-xs mt-2">HOME</span>
+          <span className="mt-2 text-xs">HOME</span>
         </div>
         <div>
           <FiUser className="text-2xl"/>
-          <span className="text-xs mt-2">PERFIL</span>
+          <span className="mt-2 text-xs">PERFIL</span>
         </div>
       </div>
 
       {/* Main content */}
-      <div className="flex-1 flex flex-col">
+      <div className="flex flex-col flex-1">
         {/* Header */}
-        <header className="flex justify-between items-center p-4 bg-blue-500 text-white">
+        <header className="flex items-center justify-between p-4 text-white bg-blue-500">
           <h1 className="text-xl font-bold">CONTROL DE AGUA</h1>
           <div className="flex items-center">
             <Clock />
-            <FiBell className="text-2xl ml-4"/>
+            <FiBell className="ml-4 text-2xl"/>
           </div>
         </header>
 
         {/* Content */}
-        <div className="p-8 flex-1">
+        <div className="flex-1 p-8">
           {/* Card grande que contiene todo el contenido */}
-          <div className="bg-white rounded-lg shadow-lg p-6">
+          <div className="p-6 bg-white rounded-lg shadow-lg">
             {/* Cuerpo de la card */}
             <div className="grid grid-cols-2 gap-4 mb-6">
               {/* Card Nivel de agua */}
-              <div className="bg-gray-200 p-4 rounded-lg">
-                <h2 className="font-bold mb-2">Nivel de agua</h2>
+              <div className="p-4 bg-gray-200 rounded-lg">
+                <h2 className="mb-2 font-bold">Nivel de agua</h2>
                 <p className="text-5xl text-center">{waterLevel}%</p>
               </div>
 
               {/* Card Calidad de agua */}
-              <div className="bg-gray-200 p-4 rounded-lg">
-                <h2 className="font-bold mb-2">Calidad del agua</h2>
+              <div className="p-4 bg-gray-200 rounded-lg">
+                <h2 className="mb-2 font-bold">Calidad del agua</h2>
                 <div className="flex justify-around">
                   <div>
-                    <span className="block h-8 w-8 bg-green-500 rounded-full mb-2 mx-auto"></span>
-                    <p className="text-center text-sm">Buena</p>
+                    <span className="block w-8 h-8 mx-auto mb-2 bg-green-500 rounded-full"></span>
+                    <p className="text-sm text-center">Buena</p>
                   </div>
                   <div>
-                    <span className="block h-8 w-8 bg-yellow-500 rounded-full mb-2 mx-auto"></span>
-                    <p className="text-center text-sm">Intermedio</p>
+                    <span className="block w-8 h-8 mx-auto mb-2 bg-yellow-500 rounded-full"></span>
+                    <p className="text-sm text-center">Intermedio</p>
                   </div>
                   <div>
-                    <span className="block h-8 w-8 bg-red-500 rounded-full mb-2 mx-auto"></span>
-                    <p className="text-center text-sm">Mala</p>
+                    <span className="block w-8 h-8 mx-auto mb-2 bg-red-500 rounded-full"></span>
+                    <p className="text-sm text-center">Mala</p>
                   </div>
                 </div>
               </div>
             </div>
 
             {/* Tinaco con animación de llenado */}
-            <div className="relative border-2 border-blue-500 rounded-lg overflow-hidden h-32 bg-gray-300">
+            <div className="relative h-32 overflow-hidden bg-gray-300 border-2 border-blue-500 rounded-lg">
               {/* Agua del tinaco */}
-              <div className="absolute bottom-0 left-0 bg-blue-300 w-full transition-all duration-300" style={{ height: `${waterLevel}%` }}></div>
+              <div className="absolute bottom-0 left-0 w-full transition-all duration-300 bg-blue-300" style={{ height: `${waterLevel}%` }}></div>
 
               {/* Etiqueta del porcentaje del agua */}
-              <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+              <div className="absolute transform -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2">
                 <span className="text-2xl font-bold">{waterLevel}%</span>
               </div>
             </div>
