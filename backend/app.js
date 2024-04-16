@@ -162,6 +162,7 @@ app.get('/sensores', (req, res) => {
         res.status(200).json(results);
     });
 });
+// a partir de aqui 
 
 app.post('/users', (req, res) => {
     const { alias, gmail, rol_id } = req.body;
