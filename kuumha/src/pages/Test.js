@@ -18,41 +18,34 @@ const Clock = () => {
 };
 
 function Home() {
-  const [waterLevel, setWaterLevel] = useState(0); // Estado del nivel de agua
-  const [tds, setTds] = useState(0); // Estado del TDS
-  const [lastUpdate, setLastUpdate] = useState(null); // Estado de la última actualización
-  const [socket, setSocket] = useState(null); // Estado del WebSocket
-
-  console.log(tds)
+  const [waterLevel, setWaterLevel] = useState(0); // Inicializa el estado del nivel de agua
 
   useEffect(() => {
-    const ws = new WebSocket('ws://localhost:8765');
-    setSocket(ws);
+    const socket = new WebSocket('ws://localhost:8765');
 
-    console.log("PUTO RAFA", ws)
-
-    ws.onopen = () => {
+    socket.onopen = () => {
       console.log('WebSocket connected');
     };
 
-    ws.onmessage = (event) => {
-      console.log("evento", event)
+    socket.onmessage = (event) => {
+      console.log(event)
       const data = JSON.parse(event.data);
       console.log('Received data:', data);
-      const { sensor_nivel, sensor_calidad, fecha } = data; // Desestructura los datos recibidos del WebSocket
-      setWaterLevel(sensor_nivel);
-      setTds(sensor_calidad);
-      setLastUpdate(fecha);
+      const { sensor_nivel } = data; // Suponiendo que recibimos un objeto con el nivel del sensor
+      const newWaterLevel = Math.min((sensor_nivel / 1000) * 100, 100); // Calcula el nivel de agua en función del nivel del sensor
+      setWaterLevel(newWaterLevel);
     };
 
+    socket.onclose = () => {
+      console.log('WebSocket closed');
+    };
 
-    ws.onerror = (error) => {
+    socket.onerror = (error) => {
       console.error('WebSocket error:', error);
     };
 
-    // Cierre del WebSocket al desmontar el componente
     return () => {
-      ws.close();
+      socket.close();
     };
   }, []);
 
@@ -90,14 +83,26 @@ function Home() {
               {/* Card Nivel de agua */}
               <div className="p-4 bg-gray-200 rounded-lg">
                 <h2 className="mb-2 font-bold">Nivel de agua</h2>
-                <p className="text-5xl text-center">{waterLevel} cm</p>
+                <p className="text-5xl text-center">{waterLevel}%</p>
               </div>
 
               {/* Card Calidad de agua */}
               <div className="p-4 bg-gray-200 rounded-lg">
                 <h2 className="mb-2 font-bold">Calidad del agua</h2>
-                <p className="text-2xl text-center">{tds} ppm</p>
-                <p className="text-sm text-center">Última actualización: {lastUpdate}</p>
+                <div className="flex justify-around">
+                  <div>
+                    <span className="block w-8 h-8 mx-auto mb-2 bg-green-500 rounded-full"></span>
+                    <p className="text-sm text-center">Buena</p>
+                  </div>
+                  <div>
+                    <span className="block w-8 h-8 mx-auto mb-2 bg-yellow-500 rounded-full"></span>
+                    <p className="text-sm text-center">Intermedio</p>
+                  </div>
+                  <div>
+                    <span className="block w-8 h-8 mx-auto mb-2 bg-red-500 rounded-full"></span>
+                    <p className="text-sm text-center">Mala</p>
+                  </div>
+                </div>
               </div>
             </div>
 

@@ -4,6 +4,7 @@ import Login from '../pages/Login';
 import Home from '../pages/Home';
 import Register from '../pages/Register';
 import Perfil from '../pages/Perfil';
+import Test from '../pages/Test';
 
 
 const isAuth = localStorage.getItem("token");
@@ -17,6 +18,7 @@ const RoutesComponent = () => {
                 <Route path="/Register" element={<Register/>} />
                 <Route path="/Home" element={<Home />} />
                 <Route path="/Perfil" element={<Perfil />} />
+                <Route path="/Test" element={<Test/>} />
             </Routes>
         </Router>
     );
