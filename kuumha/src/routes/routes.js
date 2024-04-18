@@ -1,14 +1,14 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Login from '../pages/Login';
-import Home from '../pages/Home';
+// import Home from '../pages/Home';
 import Register from '../pages/Register';
 import Perfil from '../pages/Perfil';
 import Test from '../pages/Test';
 
 
-const isAuth = localStorage.getItem("token");
-const permission = localStorage.getItem("permission");
+// const isAuth = localStorage.getItem("token");
+// const permission = localStorage.getItem("permission");
 
 const RoutesComponent = () => {
     return (
@@ -16,7 +16,7 @@ const RoutesComponent = () => {
             <Routes>
                 <Route exact path="/" element={<Login />} />
                 <Route path="/Register" element={<Register/>} />
-                <Route path="/Home" element={<Home />} />
+                {/* <Route path="/Home" element={<Home />} /> */}
                 <Route path="/Perfil" element={<Perfil />} />
                 <Route path="/Test" element={<Test/>} />
             </Routes>

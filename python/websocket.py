@@ -5,7 +5,7 @@ import serial
 from datetime import datetime  # Importa datetime
 
 async def handle_client(websocket, path):
-    ser = serial.Serial('COM7', 9600)  # Ajusta el puerto COM según sea necesario
+    ser = serial.Serial('COM6', 9600)  # Ajusta el puerto COM según sea necesario
 
     conexion = mysql.connector.connect(
         host='mysql-geovani.alwaysdata.net',
