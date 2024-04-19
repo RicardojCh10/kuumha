@@ -7,12 +7,17 @@ from datetime import datetime
 
 async def handle_client(websocket, path):
     print("Conexión WebSocket establecida")
-    ser = serial.Serial('COM6', 9600)
+
+    try:
+        ser = serial.Serial('COM5', 9600)
+    except serial.SerialException as e:
+        print(f"Error en la conexión serial: {e}")
+        return
 
     conexion = mysql.connector.connect(
-        host='mysql-geovani.alwaysdata.net',
-        user='geovani',
-        password='AmericazUT',
+        host='localhost',
+        user='root',
+        password='',
         database='geovani_project_water'
     )
     print("Conexión a la base de datos establecida")
@@ -46,15 +51,19 @@ async def handle_client(websocket, path):
                         await websocket.send(json.dumps(data))
                         print("Datos enviados por WebSocket")
 
+                        if int(distancia) >= 20:
+                            await websocket.send("max_water_level")
+                            print("¡El nivel de agua ha alcanzado el máximo!")
+
                     except mysql.connector.Error as e:
                         print(f"Error al insertar en la base de datos: {e}")
-            await asyncio.sleep(0.1)  # Espera breve para evitar un consumo excesivo de CPU
+            await asyncio.sleep(0.1)
+    except websockets.exceptions.ConnectionClosedOK:
+        print("Conexión WebSocket cerrada por el cliente")
     except KeyboardInterrupt:
         print("Programa interrumpido por el usuario")
     except mysql.connector.Error as err:
         print(f"Error en la base de datos: {err}")
-    except serial.SerialException as e:
-        print(f"Error en la conexión serial: {e}")
     finally:
         if conexion.is_connected():
             mi_cursor.close()
