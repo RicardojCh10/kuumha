@@ -87,3 +87,4 @@ if __name__ == "__main__":
         print("El programa ha sido interrumpido por el usuario")
     except Exception as e:
         print(f"Ocurrió un error: {e}")
+
