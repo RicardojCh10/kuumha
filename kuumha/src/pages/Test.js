@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { FiHome, FiUser, FiBell } from 'react-icons/fi';
+import Sidebar from './Sidebar';
+import { FiBell } from 'react-icons/fi';
+
 
 function Test() {
   const [sensorData, setSensorData] = useState([]);
@@ -26,7 +28,7 @@ function Test() {
             setSensorData(prevData => [...prevData, data]);
             // Actualizar el nivel de agua basado en los datos de distancia (por ejemplo)
             const level = Math.min(data.distancia, 20); // Limitar el nivel máximo a 20 cm
-            setWaterLevel(level); 
+            setWaterLevel(level);
             setTds(data.tds); // Actualizar el valor de TDS
             // Determinar el tipo de agua según el valor de TDS
             if (data.tds < 100) {
@@ -103,64 +105,67 @@ function Test() {
 
   return (
     <>
-      <div className="flex flex-col h-screen text-black bg-white">
-        <header className="flex items-center justify-between p-4 bg-blue-800">
-          <h1 className="text-xl font-bold">KUUMHA CONTROL DE</h1>
+      <Sidebar />
+      {/* IMAGEN DE FONFDO */}
+      <div className="absolute inset-0 z-0 bg-center bg-cover" style={{ backgroundImage: 'url(https://cdn.pixabay.com/photo/2019/05/19/23/47/clouds-4215608_1280.jpg)' }}>
+
+
+        {/*{{}} Header */}
+        <header className="flex items-center justify-between p-4 bg-[#5ba7d3] ml-16 z-50">
+          {/* Título */}
+          <h1 className="text-2xl font-bold text-white">KUUMHA - SISTEMA DE CONTROL DEL AGUA</h1>
+
+          {/* Icono de campana */}
           <div className="flex items-center">
-            <FiBell className="ml-4 text-2xl" />
+            <FiBell className="ml-4 text-white text-2xl" />
           </div>
         </header>
-        <div className="relative flex flex-1">
-          <nav className="flex flex-col items-center w-16 py-4 bg-blue-800">
-            <div className="mb-8">
-              <FiHome className="text-2xl" />
-              <span href="/test" className="mt-2 text-xs">HOME</span>
-            </div>
-            <div>
-              <FiUser className="text-2xl" />
-              <span href="/perfil" className="mt-2 text-xs">PROFILE</span>
-            </div>
-          </nav>
-          <main className="relative z-10 flex-1 p-8">
-            <div className="flex p-6 text-black bg-gray-300 rounded-lg shadow-lg">
-              {/* Tarjeta izquierda: SVG del tinaco */}
-              <div className="w-1/2 pr-4">
-                <h1 className="mb-4 text-xl font-bold">Nivel de agua</h1>
-                <svg width="400" height="300" viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
-                  {/* Tinaco exterior */}
-                  <rect x="50" y="50" width="300" height="200" rx="20" ry="20" fill="none" stroke="blue" strokeWidth="5" />
-                  {/* Forma de la cisterna */}
-                  <path d="M150,50 Q150,10 250,10 Q350,10 250,50 Z" fill="none" stroke="blue" strokeWidth="5" />
-                  {/* Rectángulo interno que representará el agua */}
-                  <rect x="55" y={250 - waterLevel * 10} width="290" height={waterLevel * 10} rx="10" ry="10" fill="url(#gradienteAgua)" />
-                  {/* Definición del gradiente */}
-                  <defs>
-                    <linearGradient id="gradienteAgua" x1="0%" y1="100%" x2="0%" y2="0%">
-                      <stop offset="0%" style={{ stopColor: '#0074D9', stopOpacity: 1 }} />
-                      <stop offset="100%" style={{ stopColor: '#0074D9', stopOpacity: 0.3 }} />
-                    </linearGradient>
-                  </defs>
-                </svg>
-              </div>
-              {/* Tarjeta derecha: información del sensor */}
-              <div className="w-1/2 pl-4">
-                <h1 className="mb-4 text-xl font-bold">Datos del sensor TDS</h1>
-                <svg width="200" height="200" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
-                  {/* Sensor TDS */}
-                  <circle cx="100" cy="100" r="80" fill={getColorByTds(tds)} />
-                </svg>
-                {/* Tipo de agua */}
-                <p className="mt-4"><span className="font-bold">Tipo de agua:</span> {waterType}</p>
-                {/* Valor de TDS */}
-                <p><span className="font-bold">Valor de TDS:</span> {tds} ppm</p>
-              </div>
-            </div>
-          </main>
-        </div>
-        {/* Fondo con imagen de agua */}
-        <div className="absolute inset-0 z-0 bg-center bg-cover" style={{ backgroundImage: 'url(https://www.freepik.es/fotos-vectores-gratis/fondo-agua)' }} />
-        {/* Capa semi-transparente */}
-        <div className="absolute inset-0 z-0 bg-black opacity-50" />
+
+        {/* CUERPO PRINCIPAL */}
+        <main className="relative z-10 flex-1 p-8">
+  <div className="flex p-10 mx-auto text-black bg-white bg-opacity-50 rounded-lg shadow-lg w-3/4">
+
+     {/* SVG del tinaco */}
+     <div className="w-1/2 pr-4">
+      <h1 className="mb-4 text-xl font-bold">Nivel de agua</h1>
+      <svg width="400" height="300" viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+        {/* Tinaco exterior */}
+        <rect x="50" y="50" width="300" height="200" rx="20" ry="20" fill="none" stroke="blue" strokeWidth="5" />
+        {/* Forma de la cisterna */}
+        <path d="M150,50 L100,10 L300,10 L250,50 Z" fill="none" stroke="blue" strokeWidth="5" />
+        {/* Agua en el tinaco */}
+        <rect x="55" y={250 - waterLevel * 10} width="290" height={waterLevel * 10} rx="10" ry="10" fill="url(#gradienteAgua)" />
+        {/* Definición del gradiente */}
+        <defs>
+          <linearGradient id="gradienteAgua" x1="0%" y1="100%" x2="0%" y2="0%">
+            <stop offset="0%" style={{ stopColor: '#0074D9', stopOpacity: 1 }} />
+            <stop offset="100%" style={{ stopColor: '#0074D9', stopOpacity: 0.3 }} />
+          </linearGradient>
+        </defs>
+      </svg>
+    </div>
+
+    {/* SVG del gráfico del sensor TDS */}
+    <div className="w-1/2 pl-4">
+      <h1 className="mb-4 text-xl font-bold">Datos del sensor TDS</h1>
+      <svg width="200" height="200" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+        {/* Eje Y */}
+        <line x1="50" y1="20" x2="50" y2="180" stroke="black" strokeWidth="2" />
+        {/* Eje X */}
+        <line x1="50" y1="180" x2="190" y2="180" stroke="black" strokeWidth="2" />
+        {/* Barras del gráfico */}
+        <rect x="60" y="120" width="30" height={(tds / 100) * 60} fill={getColorByTds(tds)} />
+        <rect x="110" y="120" width="30" height={(tds / 100) * 60} fill={getColorByTds(tds)} />
+        <rect x="160" y="120" width="30" height={(tds / 100) * 60} fill={getColorByTds(tds)} />
+      </svg>
+      {/* Leyenda */}
+      <p className="mt-4"><span className="font-bold">Tipo de agua:</span> {waterType}</p>
+      <p><span className="font-bold">Valor de TDS:</span> {tds} ppm</p>
+    </div>
+
+  </div>
+</main>
+
       </div>
     </>
   );
